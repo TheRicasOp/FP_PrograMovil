@@ -37,6 +37,7 @@ class obtieneimagen : AppCompatActivity() {
         }
         continu.setOnClickListener {
             val intent = Intent(this, filtros::class.java)
+            intent.putExtra("Foto", foto.toString())
             startActivity(intent)
         }
     }
@@ -128,6 +129,7 @@ class obtieneimagen : AppCompatActivity() {
         imgFoto = findViewById(R.id.imgFoto)
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_GALLERY) {
             //discardcontinue()
+                foto = data?.data
             imgFoto.setImageURI(data?.data)
         }
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CAMERA) {
