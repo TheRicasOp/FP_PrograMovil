@@ -1,7 +1,5 @@
 package com.example.pf_programovil
 
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -11,65 +9,52 @@ import androidx.appcompat.app.AppCompatActivity
 class filtros: AppCompatActivity() {
 
     private lateinit var imgFoto : ImageView
-    private lateinit var dis: Context
+
+    private lateinit var btnSave : ImageButton
+    private lateinit var btnApply : Button
+    private lateinit var seekBar : SeekBar
+    private lateinit var fotillo : ImageView
+    private lateinit var filtro: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.filtros_activity)
+        setContentView(R.layout.cp_filtros_activity)
 
-        dis = this
+        btnSave = findViewById(R.id.save)
+        btnApply = findViewById(R.id.aplicar)
+        seekBar = findViewById(R.id.seekBar)
+        fotillo = findViewById(R.id.fotillo)
+        filtro = findViewById(R.id.tv_filtro)
 
         val intent = getIntent()
         var foto = Uri.parse(intent.extras?.getString("Foto"))
-
         imgFoto = findViewById(R.id.fotillo)
         imgFoto.setImageURI(foto)
 
-        val datos1 = arrayOf("Tipo de filtro", "Basicos", "De Convolucion", "Otros")
+        //spinners
+        val datos1 = arrayOf("Basicos", "Inversion o Negativo", "Escala de Grises", "Brillo", "Contraste", "Gamma", "Separacion de canal rojo", "Separacion de canal verde", "Separacion de canal azul")
         val adaptador1 = ArrayAdapter(this, android.R.layout.simple_spinner_item, datos1)
         val cmbOpciones1 : Spinner = findViewById(R.id.cmbOpciones1)
         adaptador1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cmbOpciones1.adapter = adaptador1
 
-        val datos2 = arrayOf("")
+        val datos2 = arrayOf("Convolucion", "Smoothing", "Gaussian Blur", "Sharpen", "Mean Removal", "Embossing", "Edge Detection")
         val adaptador2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, datos2)
         val cmbOpciones2 : Spinner = findViewById(R.id.cmbOpciones2)
         adaptador2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cmbOpciones2.adapter = adaptador2
 
-        val datos3 = arrayOf("Filtro", "Inversión o negativo", "Escala de grises", "Brillo", "Contraste", "Gamma", "Separación de canales (rojo, verde, azul)")
+        val datos3 = arrayOf("Otros", "F1", "F2", "F3", "F4", "F5")
         val adaptador3 = ArrayAdapter(this, android.R.layout.simple_spinner_item, datos3)
         val cmbOpciones3 : Spinner = findViewById(R.id.cmbOpciones3)
         adaptador3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cmbOpciones3.adapter = adaptador3
 
-        val datos4 = arrayOf("Filtro", "Smoothing", "Gaussian Blur", "Sharpen", "Mean Removal", "Embossing", "Edge Detection")
-        val adaptador4 = ArrayAdapter(this, android.R.layout.simple_spinner_item, datos4)
+        val datos4 = arrayOf("Zoom", "25%", "50%", "100%", "150%", "200%", "300%", "500%")
+        val adaptador4= ArrayAdapter(this, android.R.layout.simple_spinner_item, datos4)
         val cmbOpciones4 : Spinner = findViewById(R.id.cmbOpciones4)
         adaptador4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         cmbOpciones4.adapter = adaptador4
-
-        val datos5 = arrayOf("Filtro", "F1", "F2", "F3", "F4", "F5", "F6")
-        val adaptador5 = ArrayAdapter(this, android.R.layout.simple_spinner_item, datos5)
-        val cmbOpciones5 : Spinner = findViewById(R.id.cmbOpciones5)
-        adaptador5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        cmbOpciones5.adapter = adaptador5
-
-        var spinner1 = findViewById<LinearLayout>(R.id.ll1).layoutParams as LinearLayout.LayoutParams
-        var spinner2 = findViewById<LinearLayout>(R.id.ll2).layoutParams as LinearLayout.LayoutParams
-        var spinner3 = findViewById<LinearLayout>(R.id.ll3).layoutParams as LinearLayout.LayoutParams
-        var spinner4 = findViewById<LinearLayout>(R.id.ll4).layoutParams as LinearLayout.LayoutParams
-
-        var width = spinner1.width
-
-        /*val datos2 = arrayOf("")
-        val datos3 = arrayOf("Filtro", "Inversión o negativo", "Escala de grises", "Brillo", "Contraste", "Gamma", "Separación de canales (rojo, verde, azul)")
-        val datos4 = arrayOf("Filtro", "Smoothing", "Gaussian Blur", "Sharpen", "Mean Removal", "Embossing", "Edge Detection")
-        val datos5 = arrayOf("Filtro", "F1", "F2", "F3", "F4", "F5", "F6")
-        var adaptador2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, datos2)
-        val cmbOpciones2 : Spinner = findViewById(R.id.cmbOpciones2)
-        adaptador2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        cmbOpciones2.adapter = adaptador2*/
 
         cmbOpciones1.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -81,65 +66,166 @@ class filtros: AppCompatActivity() {
             }
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val pos = parent.getItemAtPosition(position)
-                when(position)
-                {
+                when(position) {
                     0 -> {
-                        //datos2 = arrayOf("Filtro", "", "", "", "", "", "")
-                        //adaptador2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, datos2)
-                        spinner1.width = width
-                        spinner2.width = 1
-                        spinner3.width = 1
-                        spinner4.width = 1
                     }
                     1 -> {
-                        spinner1.width = 1
-                        spinner2.width = width
-                        spinner3.width = 1
-                        spinner4.width = 1
-                        /*adaptador2.add("Filtro")
-                        adaptador2.add("Inversión o negativo")
-                        adaptador2.add("Escala de grises")
-                        adaptador2.add("Brillo")
-                        adaptador2.add("Contraste")
-                        adaptador2.add("Gamma")
-                        adaptador2.add("Separación de canales (rojo, verde, azul)")*/
-                        //arrayOf("Filtro", "Inversión o negativo", "Escala de grises", "Brillo", "Contraste", "Gamma", "Separación de canales (rojo, verde, azul)")
+                        filtro.text = "$pos"
                     }
                     2 -> {
-                        spinner1.width = 1
-                        spinner2.width = 1
-                        spinner3.width = width
-                        spinner4.width = 1
-                        /*adaptador2.add("Filtro")
-                        adaptador2.add("Smoothing")
-                        adaptador2.add("Gaussian Blur")
-                        adaptador2.add("Sharpen")
-                        adaptador2.add("Mean Removal")
-                        adaptador2.add("Embossing")
-                        adaptador2.add("Edge Detection")*/
-                        //arrayOf("Filtro", "Smoothing", "Gaussian Blur", "Sharpen", "Mean Removal", "Embossing", "Edge Detection")
+                        filtro.text = "$pos"
                     }
                     3 -> {
-                        spinner1.width = 1
-                        spinner2.width = 1
-                        spinner3.width = 1
-                        spinner4.width = width
-                        /*adaptador2.add("Filtro")
-                        adaptador2.add("F1")
-                        adaptador2.add("F2")
-                        adaptador2.add("F3")
-                        adaptador2.add("F4")
-                        adaptador2.add("F5")*/
-                        //adaptador2 = arrayOf("Filtro", "F1", "F2", "F3", "F4", "F5", "F6")
+                        filtro.text = "$pos"
                     }
-                    else -> null
+                    4 -> {
+                        filtro.text = "$pos"
+                    }
+                    5 -> {
+                        filtro.text = "$pos"
+                    }
+                    6 -> {
+                        filtro.text = "$pos"
+                    }
+                    7 -> {
+                        filtro.text = "$pos"
+                    }
+                    8 -> {
+                        filtro.text = "$pos"
+                    }
                 }
+                when(position) {
+                    1,2,3,4,5,6,7,8 ->
+                        Toast.makeText(
+                            applicationContext,
+                            "Basico: $pos",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                }
+            }
+        }
+
+        cmbOpciones2.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>) {
                 Toast.makeText(
                         applicationContext,
-                        "Seleccionado: $pos",
+                        "Sin seleccion",
                         Toast.LENGTH_SHORT
                 ).show()
             }
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val pos = parent.getItemAtPosition(position)
+                when(position) {
+                    0 -> {
+                    }
+                    1 -> {
+                        filtro.text = "$pos"
+                    }
+                    2 -> {
+                        filtro.text = "$pos"
+                    }
+                    3 -> {
+                        filtro.text = "$pos"
+                    }
+                    4 -> {
+                        filtro.text = "$pos"
+                    }
+                    5 -> {
+                        filtro.text = "$pos"
+                    }
+                    6 -> {
+                        filtro.text = "$pos"
+                    }
+                }
+                when(position) {
+                    1,2,3,4,5,6 ->
+                        Toast.makeText(
+                                applicationContext,
+                                "Convolucion: $pos",
+                                Toast.LENGTH_SHORT
+                        ).show()
+                }
+            }
         }
+
+        cmbOpciones3.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                Toast.makeText(
+                        applicationContext,
+                        "Sin seleccion",
+                        Toast.LENGTH_SHORT
+                ).show()
+            }
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val pos = parent.getItemAtPosition(position)
+                when(position) {
+                    0 -> {
+                    }
+                    1 -> {
+                        filtro.text = "$pos"
+                    }
+                    2 -> {
+                        filtro.text = "$pos"
+                    }
+                    3 -> {
+                        filtro.text = "$pos"
+                    }
+                    4 -> {
+                        filtro.text = "$pos"
+                    }
+                    5 -> {
+                        filtro.text = "$pos"
+                    }
+                }
+                when(position) {
+                    1,2,3,4,5 ->
+                        Toast.makeText(
+                                applicationContext,
+                                "Otros: $pos",
+                                Toast.LENGTH_SHORT
+                        ).show()
+                }
+            }
+        }
+
+        cmbOpciones4.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                Toast.makeText(
+                        applicationContext,
+                        "Sin seleccion",
+                        Toast.LENGTH_SHORT
+                ).show()
+            }
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val pos = parent.getItemAtPosition(position)
+                when(position) {
+                    0 -> {
+                    }
+                    1 -> {
+                    }
+                    2 -> {
+                    }
+                    3 -> {
+                    }
+                    4 -> {
+                    }
+                    5 -> {
+                    }
+                    6 -> {
+                    }
+                    7 -> {
+                    }
+                }
+                when(position) {
+                    1,2,3,4,5,6,7 ->
+                        Toast.makeText(
+                                applicationContext,
+                                "Zoom: $pos",
+                                Toast.LENGTH_SHORT
+                        ).show()
+                }
+            }
+        }
+
     }
 }
