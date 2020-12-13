@@ -22,9 +22,10 @@ class filtros: AppCompatActivity() {
 
     private lateinit var btnSave : ImageButton
     private lateinit var btnApply : Button
-    private lateinit var seekBar : SeekBar
+    private lateinit var slider : SeekBar
     private lateinit var fotillo : ImageView
     private lateinit var filtro: TextView
+    private lateinit var seekText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +33,24 @@ class filtros: AppCompatActivity() {
 
         btnSave = findViewById(R.id.save)
         btnApply = findViewById(R.id.aplicar)
-        seekBar = findViewById(R.id.seekBar)
         fotillo = findViewById(R.id.fotillo)
         filtro = findViewById(R.id.tv_filtro)
+
+        seekText = findViewById(R.id.textView2)
+
+        slider = findViewById(R.id.seekBar) as SeekBar
+        slider.max = 10
+        slider.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekbar: SeekBar?, progress: Int, fromUser: Boolean) {
+                seekText.text = "Seeking to:" + progress.toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                seekText.text = "Started at:" + seekBar.progress
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                seekText.text = "Selected:" + seekBar.progress
+            }
+        })
 
         val intent = getIntent()
         var foto = Uri.parse(intent.extras?.getString("Foto"))
