@@ -1,10 +1,20 @@
 package com.example.pf_programovil
 
+import android.content.ContentValues
+import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.util.*
 
 class filtros: AppCompatActivity() {
 
@@ -95,11 +105,11 @@ class filtros: AppCompatActivity() {
                     }
                 }
                 when(position) {
-                    1,2,3,4,5,6,7,8 ->
+                    1, 2, 3, 4, 5, 6, 7, 8 ->
                         Toast.makeText(
-                            applicationContext,
-                            "Basico: $pos",
-                            Toast.LENGTH_SHORT
+                                applicationContext,
+                                "Basico: $pos",
+                                Toast.LENGTH_SHORT
                         ).show()
                 }
             }
@@ -138,7 +148,7 @@ class filtros: AppCompatActivity() {
                     }
                 }
                 when(position) {
-                    1,2,3,4,5,6 ->
+                    1, 2, 3, 4, 5, 6 ->
                         Toast.makeText(
                                 applicationContext,
                                 "Convolucion: $pos",
@@ -178,7 +188,7 @@ class filtros: AppCompatActivity() {
                     }
                 }
                 when(position) {
-                    1,2,3,4,5 ->
+                    1, 2, 3, 4, 5 ->
                         Toast.makeText(
                                 applicationContext,
                                 "Otros: $pos",
@@ -217,7 +227,7 @@ class filtros: AppCompatActivity() {
                     }
                 }
                 when(position) {
-                    1,2,3,4,5,6,7 ->
+                    1, 2, 3, 4, 5, 6, 7 ->
                         Toast.makeText(
                                 applicationContext,
                                 "Zoom: $pos",
@@ -227,5 +237,42 @@ class filtros: AppCompatActivity() {
             }
         }
 
+        btnSave.setOnClickListener{
+            val bitmap = fotillo.getDrawable().toBitmap()
+            saveMediaToStorage(bitmap)
+        }
+
     }
+
+    private fun saveMediaToStorage(bitmap: Bitmap) {
+        val filename = "${System.currentTimeMillis()}.jpg"
+        var fos: OutputStream? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            contentResolver?.also { resolver ->
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                }
+                val imageUri: Uri? =
+                        resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                fos = imageUri?.let { resolver.openOutputStream(it) }
+            }
+        } else {
+            val imagesDir =
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val image = File(imagesDir, filename)
+            fos = FileOutputStream(image)
+        }
+        fos?.use {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            Toast.makeText(
+                    applicationContext,
+                    "Saved to photos",
+                    Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+
 }
