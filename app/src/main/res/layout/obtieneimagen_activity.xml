@@ -10,7 +10,6 @@
         android:id="@+id/continuar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="124dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="50dp"
         android:text="Continuar"
@@ -18,17 +17,14 @@
         app:backgroundTint="@color/teal_200"
         app:iconPadding="1dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/descartar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgFoto"
         android:layout_width="361dp"
         android:layout_height="361dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="85dp"
-        android:layout_marginEnd="25dp"
         android:contentDescription="@string/imagen"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,12 +35,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="157dp"
-        android:layout_marginTop="67dp"
         android:layout_marginEnd="157dp"
+        android:layout_marginBottom="13dp"
         android:text="@string/galeria"
+        app:layout_constraintBottom_toTopOf="@+id/btnCamara"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgFoto" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnCamara"
